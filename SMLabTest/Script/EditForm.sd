@@ -1,0 +1,101 @@
+﻿procedure EditForm;
+var
+  app, wnd, form, Memo, TextEdit, mainPanel, labelPanel, btnPanel : OleVariant;
+begin
+  app : = Aliases.TestEnvironment_TD32_;
+  wnd := app.FMain;
+  form := wnd.MDIClient.FEdits.sbMain;
+  mainPanel := form.pMainPanel;
+  btnPanel := form.pButtonsPanel;
+  labelPanel := form.pLabelsPanel;
+  
+  //VideoRecorder.Start('High');
+  
+  //1. Запустить приложение
+  if not Sys.WaitProcess('TestEnvironment(TD32)').Exists then 
+    TestedApps.Items['TestEnvironment_TD32_'].Run;
+  //2. Развернуть приложение на весь экран
+  wnd.Maximize;
+  //3. Выбрать раздел "Форма редакторов"
+  wnd.VCLObject('bbEdits').Click();
+  //4. Перейти в первое поле 'Memo'
+  mainPanel.mTest.mTestEdit.SetFocus();
+  //5. Ввести произвольный многострочный текст в поле 'Memo'
+  mainPanel.mTest.mTestEdit.Keys('Произвольный' + '[Enter]' + 
+                                ' многострочный текст' + '[Enter]' + 
+                                ' в поле "Memo".');
+  //6. Нажать на кнопку "Значение"
+  btnPanel.TcxButton.Click();
+  //7. Проверить появление значения справа от кнопки
+  CompareProperty(mainPanel.mTest.Text, cmpEqual, labelPanel.Window('TcxLabel', '*', 7).Text);
+  //8. Ввести произвольное значение в поле 'TextEdit'
+  mainPanel.edTest.edTestEdit.Keys('TextEdit');
+  //9. Нажать на кнопку "Значение"
+  btnPanel.TcxButton2.Click();
+  //10. Проверить появление значения справа от кнопки
+  CompareProperty(mainPanel.edTest.Text, cmpEqual, labelPanel.Window('TcxLabel', '*', 1).Text);
+  //11. Нажать на кнопку "Значение" справа от 'CheckBox'
+  btnPanel.TcxButton3.Click();
+  //12. Проверить появление значения справа от кнопки
+  CompareProperty(labelPanel.TcxLabel.Text, cmpEqual, 'False');
+  //13. Поставить галку в поле 'CheckBox'
+  mainPanel.cbTest.Checked := True;
+  //14. Нажать на кнопку "Значение"
+  btnPanel.TcxButton3.Click();
+  //15. Проверить появление значения справа от кнопки
+  CompareProperty(labelPanel.TcxLabel.Text, cmpEqual, 'True');
+  //16. Ввести произвольное значение в поле 'CurrencyEdit'
+  mainPanel.ceTest.ceTestEdit.Keys('123');
+  //17. Нажать на кнопку "Значение"
+  btnPanel.TcxButton4.Click();
+  //18. Проверить появление значения справа от кнопки
+  CompareProperty(mainPanel.ceTest.ceTestEdit.Text, cmpContains, labelPanel.Window('TcxLabel', '*', 11).Text);
+  //19. Развернуть список и выбрать произвольное значение в поле 'CheckComboBox'
+  mainPanel.ccbTest.Click();
+  app.TcxCheckComboBoxPopupWindow.TcxEditListBoxContainer.TcxCustomCheckComboBoxListBox.Click(240, 30);
+  //20. Нажать на кнопку "Значение"
+  btnPanel.TcxButton5.Click();
+  //21. Проверить появление значения справа от кнопки
+   CompareProperty(mainPanel.ccbTest.EditValue, cmpEqual, labelPanel.Window('TcxLabel', '*', 13).Text);
+  //22. Ввести произвольное значение в поле 'SpinEdit'
+  mainPanel.seTest.SetFocus();
+  mainPanel.seTest.seTestEdit.Keys('5');
+  //23. Увеличить или уменьшить значение в поле 'SpinEdit' с помощью стрелок
+  mainPanel.seTest.seTestEdit.Click(281, 6);
+  //24. Нажать на кнопку "Значение"
+  btnPanel.TcxButton6.Click();
+  //25. Проверить появление значения справа от кнопки
+  CompareProperty(mainPanel.seTest.seTestEdit.Text, cmpEqual, labelPanel.Window('TcxLabel', '*', 2).Text);
+  //26. Выбрать произвольное значение в поле 'DateEdit'
+  mainPanel.deTest.deTestEdit.Click(281, 15);
+  app.TcxDateEditPopupWindow.TcxPopupCalendar.Click(70, 100);
+  //27. Нажать на кнопку "Значение"
+  btnPanel.TcxButton7.Click();
+  //28. Проверить появление значения справа от кнопки
+  CompareProperty(DateToStr(mainPanel.deTest.deTestEdit.GetDate()), cmpEqual, labelPanel.Window('TcxLabel', '*', 10).Text);
+  //29. Выбрать произвольное значение в поле 'ProgressEdit'
+  mainPanel.peTest.Click(88, 10);
+  //30. Увеличить или уменьшить значение в поле 'ProgressEdit' с помощью кнопок + -
+  mainPanel.peTest.peTestUp.ClickButton;
+  mainPanel.peTest.peTestDown.ClickButton;
+  //31. Нажать на кнопку "Значение"
+  btnPanel.TcxButton8.Click();
+  //32. Проверить появление значения справа от кнопки
+  CompareProperty(mainPanel.peTest.EditValue, cmpEqual, labelPanel.Window('TcxLabel', '*', 4).Text);
+  //33. Развернуть список и выбрать произвольное значение в поле 'LookUpEdit'
+  mainPanel.lueTest.lueTestEdit.Click(260, 10);
+  app.TcxComboBoxPopupWindow.TcxCustomLookupDBGrid.Click(200, 30);
+  //34. Удалить значение кнопкой "крестик"
+  mainPanel.lueTest.lueTestEdit.Click(280, 10);
+  //35. Развернуть список и выбрать произвольное значение в поле 'LookUpEdit'
+  mainPanel.lueTest.lueTestEdit.Click(260, 10);
+  app.TcxComboBoxPopupWindow.TcxCustomLookupDBGrid.Click(200, 50);
+  //36. Нажать на кнопку "Значение"
+  btnPanel.TcxButton9.Click();
+  //37. Проверить появление значения справа от кнопки
+  CompareProperty(mainPanel.lueTest.EditValue, cmpEqual, labelPanel.Window('TcxLabel', '*', 9).Text);
+  //38. Закрыть вкладку "Форма редакторов"
+  wnd.MDIClient.FEdits.Close();
+  
+  //VideoRecorder.Stop();
+end;

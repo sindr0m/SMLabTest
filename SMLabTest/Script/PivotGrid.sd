@@ -1,0 +1,74 @@
+﻿procedure PivotGrid;
+  var app, wnd, pivotGrid, fieldList : OleVariant;
+begin
+  app := Aliases.TestEnvironment_TD32_;
+  wnd := app.FMain;
+  pivotGrid := wnd.MDIClient.FPivotGrid.pgTest;
+  fieldList := app.TcxPivotGridCustomizationForm;
+
+  //VideoRecorder.Start('High');
+  
+  // 1. Запустить приложение
+  TestedApps.Items['TestEnvironment_TD32_'].Run;
+  // 2. Развернуть приложение на весь экран
+  wnd.Maximize;
+  // 3. Выбрать раздел "Форма с PivotGrid"
+  wnd.VCLObject('bbPivotGrid').Click();
+  // 4. В секции Data Fields нажать на правую кнопку мыши
+  PivotGrid.ClickR(38, 18);
+  // 5. В меню выбрать пункт 'Show Field List'
+  PivotGrid.PopupMenu.Click('Show Field List');
+  // 6. Перенести в окошко поля Square_avg и ShopID
+  PivotGrid.Drag(520, 17, 622, 715);
+  PivotGrid.Drag(609, 13, 528, 727);
+  // 7. Закрыть окно 'Field List'
+  fieldList.Close;
+  //  8. Перенести в секцию Row Fields поля City и Shop
+  pivotGrid.Drag(276, 14, -251, 141);
+  pivotGrid.Drag(483, 12, -382, 126);  
+  //  9. Перенести в поля 'Data Fields' поля Income_Sum, Value_custom
+  pivotGrid.Drag(491, 16, -454, -4);
+  pivotGrid.Drag(494, 15, -371, -1);
+  //  10. В секции 'Data Fields' нажать на правую кнопку мыши
+  pivotGrid.ClickR(38, 18);
+  //  11. В меню выбрать пункт 'Show Field List'
+  pivotGrid.PopupMenu.Click('Show Field List');
+  //  12. Выделить поле Square_avg
+  fieldList.TcxFieldListListBox.Click(41, 12);
+  //  13. В списке выбрать значение 'Data Area'
+  fieldList.TcxGroupBox.TcxComboBox.ClickItem('Data Area');
+  //  14. Нажать на кнопку 'Add To'
+  fieldList.TcxGroupBox.TcxButton.ClickButton();
+  //  15. Выделить поле ShopID
+  fieldList.TcxFieldListListBox.Click(41, 12);
+  //  16. В списке выбрать значение 'Row Area'
+  fieldList.TcxGroupBox.TcxComboBox.ClickItem('Row Area');
+  //  17. Нажать на кнопку 'Add To'
+  fieldList.TcxGroupBox.TcxButton.ClickButton();
+  //  18. Закрыть окно 'Field List'
+  fieldList.Close;
+  //  19. В поле City нажать на иконку фильтра
+  pivotGrid.Click(58, 90);
+  //  20. Снять галку с поля (Show All)
+  app.TcxPivotGridFilterPopupWindow.TcxPivotGridFilterPopupListBox.TcxCustomInnerCheckListBox.Click(7, 7);
+  //  21. Выбрать город Оренбург
+  app.TcxPivotGridFilterPopupWindow.TcxPivotGridFilterPopupListBox.TcxCustomInnerCheckListBox.Click(7, 47);
+  //  22. В секции Row Fields развернуть ветку Оренбург\Магазин 1-3\6
+  pivotGrid.Click(10, 115);
+  pivotGrid.Click(26, 132);
+  //  23. В секции Column Fields развернуть ветку Россия
+  pivotGrid.Click(561, 37);
+  //  24. На пересечении строки Оренбург и колонки Россия\Оренбургская обл.\Income_sum ввести значение 300
+  pivotGrid.Click(900, 115);
+  pivotGrid.Window('TcxSpinEdit', '*', 1).Window('TcxCustomInnerTextEdit', '*', 1).Keys('300');
+  //  25. На пересечении строки 6 и колонки Россия\Оренбургская обл.\Value_custom ввести значение 600
+  pivotGrid.Click(997, 155);
+  pivotGrid.Window('TcxSpinEdit', '*', 1).Window('TcxCustomInnerTextEdit', '*', 1).Keys('600');
+  //  26. На пересечении строки Магазин 2-3 и колонки Россия\Оренбургская обл.\Square_avg ввести значение 400
+  pivotGrid.Click(1104, 172);
+  pivotGrid.Window('TcxSpinEdit', '*', 1).Window('TcxCustomInnerTextEdit', '*', 1).Keys('400');
+  //  27. Закрыть вкладку "Форма с PivotGrid"
+  wnd.MDIClient.FPivotGrid.Close();
+  
+  //VideoRecorder.Stop();
+end;

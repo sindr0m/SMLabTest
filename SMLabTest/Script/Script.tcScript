@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Root signature="{9252F941-DB23-4FCA-AA50-858B33BB4A19}" version="11.40">
+	<children>
+		<child name="EditForm" key="{89519F08-A121-46F7-A10B-C6C9081134B5}" path="EditForm.sd" />
+		<child name="PivotGrid" key="{23DC5C59-6137-4A5B-BAEA-E99597DFA17D}" path="PivotGrid.sd" />
+		<child name="TreeList" key="{A1A4F16C-847C-4DA4-BD3C-2A20336E3476}" path="TreeList.sd" />
+	</children>
+</Root>

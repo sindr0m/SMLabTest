@@ -1,0 +1,31 @@
+﻿procedure TreeList;
+  var wnd, treeList : OleVariant;
+begin
+  wnd := Aliases.TestEnvironment_TD32_.FMain;
+  treeList := wnd.MDIClient.FTreeList.tlTest;
+  
+  //VideoRecorder.Start('High');
+  
+  //1. Запустить приложение
+   TestedApps.Items['TestEnvironment_TD32_'].Run;
+  //2. Развернуть приложение на весь экран
+  wnd.Maximize;
+  //3. Выбрать раздел "Форма с TreeList"
+  wnd.VCLObject('bbTreeList').Click();
+  //4. Свернуть элемент 24
+  treeList.wChildView[1].Collapse(2);
+  //5. Свернуть элемент 17
+  treeList.Collapse(1);
+  //6. Изменить атрибут name у элемента 58
+  treeList.wChildView[3].wChildView[2].ClickCell(1, 'name');
+  treeList.TcxMaskEdit.TcxCustomInnerTextEdit.SetText('NEW Name');
+  //7. Удалить значение атрибута name у элемента 25
+  treeList.Expand(1);
+  treeList.wChildView[1].Expand(2);
+  treeList.wChildView[1].wChildView[2].ClickCell(0, 'name');
+  treeList.TcxMaskEdit.TcxCustomInnerTextEdit.SetText('');
+  //8. Закрыть вкладку "Форма с Tree List"
+  wnd.MDIClient.FTreeList.Close();
+  
+  //VideoRecorder.Stop();
+end;
