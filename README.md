@@ -23,3 +23,5 @@
   ([резерв](https://yadi.sk/i/3VMO0A3Nqj6JVw))
   
 * [Скрипт](https://github.com/sindr0m/SMLabTest/blob/master/SMLabTest/Script/PivotGrid.sd)
+- - -
+[Резюме](https://yadi.sk/i/3ngEpErQKpUCkA)
